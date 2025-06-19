@@ -16,7 +16,6 @@ function App() {
         <p className="text-lg text-gray-400">AI Engineering Dashboard</p>
       </header>
 
-      {/* AI Status Section */}
       <section className="bg-gray-800 rounded-xl p-6 mb-6 shadow-md max-w-3xl mx-auto">
         <h2 className="text-2xl font-semibold mb-4">AI Training Status</h2>
         <p><strong>Status:</strong> Training in progress...</p>
@@ -25,7 +24,6 @@ function App() {
         <p><strong>ETA:</strong> ~3 hours remaining</p>
       </section>
 
-      {/* Image Dashboard */}
       <section className="bg-gray-800 rounded-xl p-6 shadow-md max-w-5xl mx-auto">
         <h2 className="text-2xl font-semibold mb-4">Image Dashboard</h2>
         <input
