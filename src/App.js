@@ -1,51 +1,90 @@
-import React, { useState } from 'react';
-
-
+import React, { useState, useEffect } from 'react';
 
 function App() {
   const [images, setImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
 
-  const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    const newImages = files.map(file => URL.createObjectURL(file));
-    setImages(prev => [...prev, ...newImages]);
+  // TODO: Replace this with actual API call to load images from backend
+  useEffect(() => {
+    setImages([
+      // Placeholder images or empty array initially
+    ]);
+  }, []);
+
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+
+    // TODO: Upload file to backend API here
+    
+    // For now, show preview immediately
+    setImages((imgs) => [...imgs, URL.createObjectURL(file)]);
+    setUploading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <header className="text-center py-6">
-        <h1 className="text-4xl font-bold mb-2">Welcome to YummyMetalMan Site</h1>
-        <p className="text-lg text-gray-400">AI Engineering Dashboard</p>
-      </header>
+    <div className="relative min-h-screen bg-black text-white">
+      {/* Moving gradient background */}
+      <div
+        className="fixed inset-0 bg-gradient-to-r from-green-800 via-blue-900 to-purple-900 opacity-30 animate-moveBackground"
+        style={{ zIndex: -1 }}
+      />
 
-      <section className="bg-gray-800 rounded-xl p-6 mb-6 shadow-md max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4">AI Training Status</h2>
-        <p><strong>Status:</strong> Training in progress...</p>
-        <p><strong>Epoch:</strong> 0.42 / 1.00</p>
-        <p><strong>Loss:</strong> 0.6789</p>
-        <p><strong>ETA:</strong> ~3 hours remaining</p>
-      </section>
+      <div className="container mx-auto p-6">
+        <h1 className="text-4xl font-extrabold mb-8 text-center">Tactical AI Training Dashboard</h1>
 
-      <section className="bg-gray-800 rounded-xl p-6 shadow-md max-w-5xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4">Image Dashboard</h2>
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="mb-4 text-gray-200"
-        />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {images.map((src, idx) => (
-            <img
-              key={idx}
-              src={src}
-              alt={`Uploaded ${idx}`}
-              className="rounded-lg object-cover w-full h-40 border border-gray-700"
-            />
-          ))}
-        </div>
-      </section>
+        {/* Test message added here */}
+        <h2 className="text-center text-xl mb-6">This is a test message!</h2>
+
+        {/* Upload Panel */}
+        <section className="mb-10 max-w-lg mx-auto">
+          <label className="block mb-2 text-lg font-semibold" htmlFor="file-upload">
+            Upload Image
+          </label>
+          <input
+            type="file"
+            id="file-upload"
+            accept="image/*"
+            onChange={handleUpload}
+            disabled={uploading}
+            className="block w-full text-black rounded"
+          />
+          {uploading && <p className="mt-2 text-green-400">Uploading...</p>}
+        </section>
+
+        {/* Gallery Panel */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Uploaded Images</h2>
+          {images.length === 0 ? (
+            <p className="text-gray-300">No images uploaded yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {images.map((src, idx) => (
+                <img
+                  key={idx}
+                  src={src}
+                  alt={`Uploaded #${idx + 1}`}
+                  className="w-full h-48 object-cover rounded-lg shadow-lg"
+                />
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
+
+      {/* Moving background animation */}
+      <style>{`
+        @keyframes moveBackground {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-moveBackground {
+          background-size: 200% 200%;
+          animation: moveBackground 30s ease infinite;
+        }
+      `}</style>
     </div>
   );
 }
